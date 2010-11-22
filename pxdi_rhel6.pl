@@ -4,8 +4,8 @@
 # - http://wiki.xen.org/xenwiki/RHEL6Xen4Tutorial
 #
 # Author:  Digimer <digimer@alteeve.com>
-# Date:    2010-11-18
-# Version: 0.5
+# Date:    2010-11-22
+# Version: 0.6
 # License: GPL v2.0+
 # 
 # Creates an installable Xen 4.0.1 Hypervisor, creates a 2.6.32-25 based dom0
@@ -166,7 +166,7 @@ my $conf = {
 		],
 		downloads	=>	{
 			qemu_src	=>	"http://download.fedora.redhat.com/pub/fedora/linux/updates/13/SRPMS/qemu-0.12.5-1.fc13.src.rpm",
-			libvirt_src	=>	"ftp://ftp.redhat.com/pub/redhat/linux/enterprise/6/en/source/SRPMS/libvirt-0.8.1-27.el6.src.rpm",
+			libvirt_src	=>	"ftp://ftp.redhat.com/pub/redhat/linux/enterprise/6Server/en/os/SRPMS/libvirt-0.8.1-27.el6.src.rpm",
 			libvirt_patch	=>	"http://pasik.reaktio.net/xen/patches/libvirt-spec-rhel6-enable-xen.patch",
 			xen_src		=>	"http://download.fedora.redhat.com/pub/fedora/linux/releases/14/Everything/source/SRPMS/xen-4.0.1-6.fc14.src.rpm",
 			kernel_src	=>	"git://git.kernel.org/pub/scm/linux/kernel/git/jeremy/xen.git",

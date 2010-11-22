@@ -1,3 +1,6 @@
+v0.6 - Nov. 22, 2010
+ - Changed the URL for the libvirt source to reflect Red Hat's change.
+
 v0.5 - Nov. 22, 2010
  - Minor textual changes to add a missing line that should have been displayed
    to the user.
