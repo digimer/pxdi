@@ -1,3 +1,10 @@
+v0.4 - Nov. 22, 2010
+ - Added the following packages to the dependency list as they were needed on
+   a "minimal" install server.
+   - dnsmasq
+   - iscsi-initiator-utils
+   - lvm2
+
 v0.3 - Nov. 22, 2010
  - Fixed the 'depmod' section by chdir'ing to the kernel directory before
    calling depmod.
