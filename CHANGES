@@ -1,0 +1,6 @@
+v0.2 - Nov. 22, 2010
+ - Switched the install order to build and install the hypervisor before
+   libvirt.
+   
+v0.1 - Nov. 22, 2010
+ - First release.
