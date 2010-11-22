@@ -1,6 +1,9 @@
 v0.2 - Nov. 22, 2010
  - Switched the install order to build and install the hypervisor before
    libvirt.
+ - Disabled the check for the check of the kernel module binary as it was found
+   before it ran the compile for the first time. Will re-enable when a suitable
+   file is found.
    
 v0.1 - Nov. 22, 2010
  - First release.

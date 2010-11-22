@@ -5,7 +5,7 @@
 #
 # Author:  Digimer <digimer@alteeve.com>
 # Date:    2010-11-18
-# Version: 0.1
+# Version: 0.2
 # License: GPL v2.0+
 # 
 # Creates an installable Xen 4.0.1 Hypervisor, creates a 2.6.32-25 based dom0
@@ -209,6 +209,7 @@ my $conf = {
 			xen_license	=>	"/usr/share/doc/xen-licenses-4.0.1/COPYING",
 			xen_debuginfo	=>	"/usr/lib/debug/usr/bin/xen-detect.debug",
 			kernel_bzImage	=>	"arch/x86/boot/bzImage",
+			# The following is not adequate. It is found.
 			kernel_modules	=>	"firmware/vicam/firmware.fw",
 			kernel_mod_inst =>	"/lib/modules/2.6.32.25/build",
 		},
@@ -246,11 +247,11 @@ if (install_dep_packages($conf, "1")) { install_dep_packages($conf, "2") }
 # Build and install qemu from source.
 build_and_install_qemu($conf);
 
-# Build and install libvirt from source.
-patch_build_and_install_libvirt($conf);
-
 # Build and install the xen hypervisor from source.
 build_and_install_xen_hv($conf);
+
+# Build and install libvirt from source.
+patch_build_and_install_libvirt($conf);
 
 # Compile and install the kernel.
 compile_patch_and_instal_dom0($conf);
@@ -567,7 +568,8 @@ sub compile_patch_and_instal_dom0
 	
 	# Make the modules
 	my $module="$git_clone_dir/$conf->{files}{bins}{kernel_modules}";
-	if ($module)
+# 	if ($module)
+	if (0)
 	{
 		print "I found a sample module from module compile stage, so it looks to be completed\n";
 		print "already; Skipping.\n";
