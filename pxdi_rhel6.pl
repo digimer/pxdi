@@ -5,7 +5,7 @@
 #
 # Author:  Digimer <digimer@alteeve.com>
 # Date:    2010-11-18
-# Version: 0.3
+# Version: 0.5
 # License: GPL v2.0+
 # 
 # Creates an installable Xen 4.0.1 Hypervisor, creates a 2.6.32-25 based dom0
@@ -366,6 +366,7 @@ sub add_dom0_to_grub
 		print "Wrote out new grub menu as:\n";
 		if ($conf->{files}{grub_in} eq $conf->{files}{grub_out})
 		{
+			print " - $conf->{files}{grub_out}\n\n";
 			print "The new dom0 kernel should now be written to your grub menu.\n";
 			print "The original grub menu was backed up to:\n" if $grub_backed_up;
 			print " - $backup\n\n" if $grub_backed_up;

@@ -1,3 +1,7 @@
+v0.5 - Nov. 22, 2010
+ - Minor textual changes to add a missing line that should have been displayed
+   to the user.
+
 v0.4 - Nov. 22, 2010
  - Added the following packages to the dependency list as they were needed on
    a "minimal" install server.
