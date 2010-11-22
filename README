@@ -1,0 +1,13 @@
+PXDI; Pasik's Xen 4.0.1 Dom0 Installer
+
+- Based on the tutorial by Pasi Kärkkäinen <pasik@iki.fi>
+  - http://wiki.xen.org/xenwiki/RHEL6Xen4Tutorial
+
+Author:  Digimer <digimer@alteeve.com>
+Date:    2010-11-18
+Version: 0.1
+License: GPL v2.0+
+
+For information and usage, please see:
+- http://wiki.alteeve.com/index.php/Pxdi
+

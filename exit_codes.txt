@@ -1,0 +1,29 @@
+Exit codes; 
+
+>1 safe exit
+ 0 success
+<1 error
+
+Please note; Some error conditions do not use a defined exit code yet.
+             Specifically, errors using "<foo> || die '...'". If this proves
+             useful, I will clean things up more.
+
+  1 - User aborted
+  0 - Install succeeded
+ -1 - script not run as root.
+ -2 - 'RHEL Server Optional' repo not detected.
+ -3 - Failed to read any installed package groups.
+ -4 - Failed to read any installed packages.
+ -5 - Failed to install all package groups.
+ -6 - Failed to install all packages.
+ -7 - Specified file not found.
+ -8 - Failed to find the expected .spec file after source RPM install.
+ -9 - Failed to find the expected RPM file post .spec compile.
+-10 - Failed to find binary that should have been installed by an RPM.
+-11 - Failed to switch to the upstream kerne stable branch.
+-12 - Failed to find the '.config.old' file after 'make oldconfig'.
+-13 - Failed to find the 'bzImage' from the kernel compile.
+-14 - Failed to find a sample file from the kernel module compile.
+-15 - Failed to see the expected string while patching a spec file.
+-16 - The depmod call generated output, which was treated as an error.
+-17 - The dracut call generated output, which was treated as an error.
