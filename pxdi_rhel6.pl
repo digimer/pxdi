@@ -5,7 +5,7 @@
 #
 # Author:  Digimer <digimer@alteeve.com>
 # Date:    2010-11-18
-# Version: 0.2
+# Version: 0.3
 # License: GPL v2.0+
 # 
 # Creates an installable Xen 4.0.1 Hypervisor, creates a 2.6.32-25 based dom0
@@ -496,16 +496,16 @@ sub compile_patch_and_instal_dom0
 	my $bzImage="$git_clone_dir/$conf->{files}{bins}{kernel_bzImage}";
 	if ( -e $bzImage )
 	{
-		print "I found the kernel's bzImage file below, compile appears to be completed\n";
-		print "already; Skipping.\n";
+		print " - I found the kernel's bzImage file below, compile appears to be completed\n";
+		print "   already; Skipping.\n";
 	}
 	else
 	{
-		print "Making '.config' with: [$conf->{args}{make_oc}]\n";
+		print " - Making '.config' with: [$conf->{args}{make_oc}]\n";
 		my $old_config="$git_clone_dir/$conf->{files}{bins}{old_config}";
 		if ( -e $old_config )
 		{
-			print "It looks like the '.config' has already been updated; Skipping.\n";
+			print " - It looks like the '.config' has already been updated; Skipping.\n";
 		}
 		else
 		{
@@ -537,6 +537,7 @@ sub compile_patch_and_instal_dom0
 		}
 		
 		# Now make the kernel!
+		print "Now compiling the kernel.\n";
 		print "WARNING! This can take a very, very long time depending on the speed of your\n";
 		print "         processor(s). Please be patient and watch 'top' from another terminal.\n";
 		my $make_bz=IO::Handle->new();
@@ -608,14 +609,17 @@ sub compile_patch_and_instal_dom0
 	}
 	
 	# Install the lot now.
+	chdir "$git_clone_dir" || die "failed to change the directory to: [$git_clone_dir]. Error: $!\n";
 	my $kernel_mod_inst=$conf->{files}{bins}{kernel_mod_inst};
-	if ($kernel_mod_inst)
+# 	if ($kernel_mod_inst)
+	if (0)
 	{
 		print " - It looks like the kernel modules have already been installed; Skipping.\n";
 	}
 	else
 	{
 		# Now make the kernel!
+		print "Compiling the kernel modules now.\n";
 		print "WARNING! This can take a very, very long time depending on the speed of your\n";
 		print "         processor(s). Please be patient and watch 'top' from another terminal.\n";
 		my $make_ins=IO::Handle->new();
@@ -655,6 +659,7 @@ sub compile_patch_and_instal_dom0
 	}
 	else
 	{
+		print "Running depmod.\n";
 		print "WARNING! This can take a long time depending on the speed of your processor(s).\n";
 		print "         Please be patient and watch 'top' from another terminal.\n";
 		my $ok=1;
@@ -683,6 +688,7 @@ sub compile_patch_and_instal_dom0
 			exit -16;
 		}
 	}
+	chdir "$ENV{HOME}" || die "failed to change the directory to: [$ENV{HOME}]. Error: $!\n";
 	
 	# Now copy the files into place.
 	my $src_bzimage="$ENV{HOME}/$conf->{files}{kernel_git_dir}/arch/x86/boot/bzImage";
@@ -704,8 +710,11 @@ sub compile_patch_and_instal_dom0
 	}
 	else
 	{
+		print "Running dracut\n";
+		print "WARNING! This can take a long time depending on the speed of your processor(s).\n";
+		print "         Please be patient and watch 'top' from another terminal.\n";
 		chdir "/boot" || die "failed to change the directory to: [/boot]. Error: $!\n";
-		print "Current dir: "; system ('pwd');
+# 		print "Current dir: "; system ('pwd');
 		my $dracut=IO::Handle->new();
 		my $shell_call="$conf->{path}{dracut} initramfs-".$conf->{args}{kernel_ver}.".img $conf->{args}{kernel_ver} 2>&1 |";
 # 		print "Shell call: [$shell_call]\n";

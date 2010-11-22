@@ -1,3 +1,8 @@
+v0.3 - Nov. 22, 2010
+ - Fixed the 'depmod' section by chdir'ing to the kernel directory before
+   calling depmod.
+ - Minor display cleanup.
+
 v0.2 - Nov. 22, 2010
  - Switched the install order to build and install the hypervisor before
    libvirt.
