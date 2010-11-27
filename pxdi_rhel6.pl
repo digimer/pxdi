@@ -12,12 +12,16 @@
 # kernel and then installs the lot on RHEL 6 and derivatives.
 # 
 ### TODO
-# - Find a way to show progress while 'yum' is downloading so that it doesn't look hung.
+# - Find a way to show progress while 'yum' is downloading so that it doesn't
+#   look hung.
 # - Make sure that 'network' is in use and not 'NetworkManager'.
-# - Make sure that the interface with the default route is set to 'NM_CONTROLLED="no"'.
+# - Make sure that the interface with the default route is set to
+#   'NM_CONTROLLED="no"'.
 # - Do an actual test to see if the Internet connection is working.
 # - Make sure that this works with SELinux or else that SELinux is disabled.
 # - Check that the hostname is sane.
+# - Make URLs into optional arrays. If an array is passed to 'download_file',
+#   have it loop through all array elements until a working source is found.
 ### TOCHECK
 # - 'mkinitrd' is listed on Pasi's tutorial, but is not a package itself. It
 #   seems to be provided by 'dracut'.
