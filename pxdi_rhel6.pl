@@ -4,8 +4,8 @@
 # - http://wiki.xen.org/xenwiki/RHEL6Xen4Tutorial
 #
 # Author:  Digimer <digimer@alteeve.com>
-# Date:    2010-11-22
-# Version: 0.6
+# Date:    2010-11-27
+# Version: 0.7
 # License: GPL v2.0+
 # 
 # Creates an installable Xen 4.0.1 Hypervisor, creates a 2.6.32-25 based dom0
@@ -34,6 +34,7 @@ use File::Copy;
 # Configuration stuff.
 my $conf = {
 	confirm		=>	1,
+	nodebug		=>	0,
 	path		=>	{
 		yum		=>	"/usr/bin/yum",
 		wget		=>	"/usr/bin/wget",
@@ -66,6 +67,7 @@ my $conf = {
 		yum_install_rpm	=>	"-y install --nogpgcheck",
 		wget		=>	"-c",
 		wget_config	=>	"-c -O .config",
+		wget_nd_config	=>	"-c --no-check-certificate -O .config",
 		rpm_src		=>	"-ivh",
 		rpmbuild	=>	"-bb",
 		rpm		=>	"-Uvh",
@@ -78,7 +80,7 @@ my $conf = {
 		patch		=>	"-p0",
 		depmod		=>	"-a",
 		# If the kernel spec changes, so must this.
-		kernel_ver	=>	"2.6.32.25",
+		kernel_ver	=>	"2.6.32.26",
 		# This is appended to the Xen kernel line in grub.
 		xen_kernel	=>	"dom0_mem=1024M",
 		grub_timeout	=>	"10",
@@ -86,6 +88,7 @@ my $conf = {
 	files		=>	{
 		kernel_git_dir	=>	"linux-2.6-xen",
 		pasik_config	=>	".config",
+		nodebug_config	=>	".config",
 		old_config	=>	".config.old",
 		# 'args::kernel_ver' is appended to these.
 		dst_bzimage	=>	"/boot/vmlinuz-",
@@ -175,6 +178,7 @@ my $conf = {
 			xen_src		=>	"http://download.fedora.redhat.com/pub/fedora/linux/releases/14/Everything/source/SRPMS/xen-4.0.1-6.fc14.src.rpm",
 			kernel_src	=>	"git://git.kernel.org/pub/scm/linux/kernel/git/jeremy/xen.git",
 			kernel_config	=>	"http://pasik.reaktio.net/xen/kernel-config/config-2.6.32.25-pvops-dom0-xen-stable-x86_64",
+			config_nodebug	=>	"https://github.com/digimer/pxdi/raw/master/config-2.6.32.25-pvops-dom0-xen-stable-x86_64-no-debug_an1",
 		},
 		specs		=>	{
 			qemu		=>	"qemu.spec",
@@ -218,7 +222,7 @@ my $conf = {
 			kernel_bzImage	=>	"arch/x86/boot/bzImage",
 			# The following is not adequate. It is found.
 			kernel_modules	=>	"firmware/vicam/firmware.fw",
-			kernel_mod_inst =>	"/lib/modules/2.6.32.25/build",
+			kernel_mod_inst =>	"/lib/modules/2.6.32.26/build",
 		},
 	},
 	chkconfig	=>	{
@@ -484,19 +488,40 @@ sub compile_patch_and_instal_dom0
 		}
 	}
 	
-	# Check to see if Pasik's ".config" is down.
-	print "Downloading Pasik's dom0 '.config' file.\n";
-	if ( -e $conf->{files}{pasik_config} )
+	# Get a .config
+	if ($conf->{nodebug})
 	{
-		print " - It looks like we already have it; Skipping.\n";
+		# Check to see if Pasik's ".config" is down.
+		print "Downloading AN's dom0 '.config' file (nodebug variant of Pasik's .config).\n";
+		if ( -e $conf->{files}{nodebug_config} )
+		{
+			print " - It looks like we already have it; Skipping.\n";
+		}
+		else
+		{
+			# Do the download. I don't need to check for success as the
+			# function below does so and exits on error.
+			my $url=$conf->{files}{downloads}{config_nodebug};
+			download_file($conf, $url, "wget_nd_config");
+			print " - Success!\n";
+		}
 	}
 	else
 	{
-		# Do the download. I don't need to check for success as the
-		# function below does so and exits on error.
-		my $url=$conf->{files}{downloads}{kernel_config};
-		download_file($conf, $url, "wget_config");
-		print " - Success!\n";
+		# Check to see if Pasik's ".config" is down.
+		print "Downloading Pasik's dom0 '.config' file.\n";
+		if ( -e $conf->{files}{pasik_config} )
+		{
+			print " - It looks like we already have it; Skipping.\n";
+		}
+		else
+		{
+			# Do the download. I don't need to check for success as the
+			# function below does so and exits on error.
+			my $url=$conf->{files}{downloads}{kernel_config};
+			download_file($conf, $url, "wget_config");
+			print " - Success!\n";
+		}
 	}
 	
 	# Now I will compile the kernel.
@@ -1175,7 +1200,7 @@ sub download_file
 	
 	# Make the URL and file cleaner.
 	my ($file)=($url=~/.*\/(.*?)$/);
-	if ($wget_arg eq "wget_config")
+	if (($wget_arg eq "wget_config") || ($wget_arg eq "wget_nd_config"))
 	{
 		$file=".config";
 	}

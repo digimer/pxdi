@@ -1,3 +1,7 @@
+v0.7 - Nov. 27, 2010
+ - Changed the kernel name to 2.6.32.26
+ - Added the 'nodebug' option for a performance kernel option.
+ 
 v0.6 - Nov. 22, 2010
  - Changed the URL for the libvirt source to reflect Red Hat's change.
 
